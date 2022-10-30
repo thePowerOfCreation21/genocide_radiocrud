@@ -11,5 +11,9 @@
             "email": "dadekavweb2@gmail.com"
         }
     ],
-    "require": {}
+    "require": {
+        "morilog/jalali": "^3.4",
+        "illuminate/database": "^9.37",
+        "illuminate/http": "^9.37"
+    }
 }
