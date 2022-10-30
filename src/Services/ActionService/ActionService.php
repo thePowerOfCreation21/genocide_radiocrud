@@ -273,7 +273,7 @@ abstract class ActionService
     public function applyResourceToEntity ($entity): mixed
     {
         $resource = $this->getResource();
-        return (! $this->applyResource || is_null($resource)) && ! is_object($entity) ? $entity : new $resource($entity);
+        return (! $this->applyResource || is_null($resource)) || ! is_object($entity) ? $entity : new $resource($entity);
     }
 
     /**
