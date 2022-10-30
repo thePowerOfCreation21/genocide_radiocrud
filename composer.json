@@ -1,0 +1,15 @@
+{
+    "name": "genocide/radiocrud",
+    "autoload": {
+        "psr-4": {
+            "Genocide\\Radiocrud\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "ThePowerOfCreation21",
+            "email": "dadekavweb2@gmail.com"
+        }
+    ],
+    "require": {}
+}
