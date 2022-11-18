@@ -2,11 +2,11 @@
 
 namespace Genocide\Radiocrud\Services\ActionService\Traits;
 
-use App\Exceptions\CustomException;
+use Genocide\Radiocrud\Exceptions\CustomException;
+use Genocide\Radiocrud\Helpers;
 use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
 use Morilog\Jalali\CalendarUtils;
-use Radiocrud\Radiocrud\Helpers;
 
 trait HandleRequestData
 {
@@ -191,7 +191,7 @@ trait HandleRequestData
 
             $castRule = explode(':', $castRule);
             $value = match ($castRule[0]) {
-                'file' => $this->uploadFile($value, $castRule[1] ?? ''),
+                'file' => $this->uploadFile($value, $castRule[1] ?? '', $field),
                 'boolean' => Helpers::convertToBoolean($value),
                 'regex' => $this->checkRegex($value, $castRule[1], $field),
                 'jalali_to_gregorian' => $this->castJalaliDate($value, $field),
@@ -250,7 +250,7 @@ trait HandleRequestData
      * @param string $path
      * @return string
      */
-    protected function uploadFile(UploadedFile $file, string $path = '/uploads'): string
+    protected function uploadFile(UploadedFile $file, string $path = '/uploads', string $fieldName = null): string
     {
         if (empty($path))
         {
