@@ -206,4 +206,15 @@ class Helpers
 
         return date("Y-m-d H:i:s", $value);
     }
+
+    /**
+     * @param $value
+     * @return object|null
+     */
+    public static function getCustomDateCast ($value): ?object
+    {
+        return empty($value) ? null : Helpers::timeToCustomDate(
+            strtotime($value)
+        );
+    }
 }
