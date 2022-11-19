@@ -102,6 +102,8 @@ class Helpers
             $time = time();
         }
 
+        $time = (int) $time;
+
         return (object) [
             'timestamp' => $time,
             'date' => date("Y/m/j H:i:s", $time),
