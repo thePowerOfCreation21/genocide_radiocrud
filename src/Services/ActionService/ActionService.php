@@ -14,19 +14,23 @@ use Genocide\Radiocrud\Services\ActionService\Traits\HandleRequestData;
 use Genocide\Radiocrud\Services\ActionService\Traits\HandleResource;
 use Genocide\Radiocrud\Services\PaginationService;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 abstract class ActionService
 {
-    use HandleRequestData,
-        HandleResource,
+    use HandleResource,
         HandleRequest,
         HandleModel,
         HandleQueryToEloquentClosure,
         HandleEloquent,
         HandleQuery,
         HandleOrderBy,
-        HandleRelations;
+        HandleRelations,
+        HandleRequestData
+        {
+            getDataFromRequest as public getDataFromRequestTrait;
+        }
 
     protected bool $applyResource = true;
 
@@ -54,6 +58,28 @@ abstract class ActionService
     public function getEloquent (): mixed
     {
         return is_null($this->eloquent) ? new $this->model() : $this->eloquent;
+    }
+
+    /**
+     * @param Request|null $request
+     * @param array|string|null $validationRule
+     * @param array $options
+     * @return array
+     * @throws CustomException
+     */
+    public function getDataFromRequest(Request $request = null, array|string $validationRule = null, array $options = []): array
+    {
+        if (is_null($request))
+        {
+            $request = $this->getRequest();
+        }
+
+        if (is_null($validationRule))
+        {
+            $validationRule = $this->getValidationRule();
+        }
+
+        return $this->getDataFromRequestTrait($request, $validationRule, $options);
     }
 
     /**
