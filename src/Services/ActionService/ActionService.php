@@ -371,6 +371,19 @@ abstract class ActionService
     }
 
     /**
+     * @param string $id
+     * @param callable|null $updating
+     * @return bool|int
+     * @throws CustomException
+     */
+    public function updateByIdAndRequest (string $id, callable $updating = null): bool|int
+    {
+        return $this
+            ->queryEloquentById($id)
+            ->updateByRequest($updating);
+    }
+
+    /**
      * @return bool
      */
     public function exists(): bool
