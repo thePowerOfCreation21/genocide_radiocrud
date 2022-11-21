@@ -189,12 +189,12 @@ trait HandleRequestData
                 continue;
             }
 
-            $castRule = explode(':', $castRule);
+            $castRule = explode(':', $castRule, 2);
             $value = match ($castRule[0]) {
                 'file' => $this->uploadFile($value, $castRule[1] ?? '', $field),
                 'boolean' => Helpers::convertToBoolean($value),
                 'regex' => $this->checkRegex($value, $castRule[1], $field),
-                'jalali_to_gregorian' => $this->castJalaliDate($value, $field),
+                'jalali_to_gregorian' => $this->castJalaliDate($value, $castRule[1] ?? 'Y-m-d H:i:s', $field),
                 default => $value,
             };
         }
@@ -204,10 +204,11 @@ trait HandleRequestData
 
     /**
      * @param string $date
+     * @param string $dateFormat
      * @param string|null $field
      * @return array|string
      */
-    protected function castJalaliDate (string $date, string $field = null): array|string
+    protected function castJalaliDate (string $date, string $dateFormat = 'Y-m-d H:i:s', string $field = null): array|string
     {
         /*
         $arrayDateTime = explode(' ', $date);
@@ -223,7 +224,8 @@ trait HandleRequestData
         }
         return $date;
         */
-        return CalendarUtils::createDatetimeFromFormat("Y-m-d H:i:s", $date)->format("Y-m-d H:i:s");
+        $dateFormat = explode('->', $dateFormat, 2);
+        return CalendarUtils::createDatetimeFromFormat($dateFormat[0], $date)->format($dateFormat[1] ?? $dateFormat[0]);
     }
 
     /**
