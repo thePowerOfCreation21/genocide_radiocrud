@@ -164,6 +164,17 @@ abstract class ActionService
     }
 
     /**
+     * @return ActionService
+     * @throws CustomException
+     */
+    public function makeEloquentViaRequest (): ActionService
+    {
+        return $this
+            ->mergeQueryWithQueryFromRequest()
+            ->makeEloquent();
+    }
+
+    /**
      * @param string|null $userClass
      * @return mixed
      * @throws CustomException
