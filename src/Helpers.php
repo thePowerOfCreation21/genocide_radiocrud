@@ -106,8 +106,8 @@ class Helpers
 
         return (object) [
             'timestamp' => $time,
-            'date' => date("Y/m/j H:i:s", $time),
-            'jdate' => CalendarUtils::strftime("Y/m/j H:i:s", $time),
+            'date' => date("Y-m-d H:i:s", $time),
+            'jdate' => CalendarUtils::strftime("Y-m-d H:i:s", $time),
             'string' => CalendarUtils::strftime("l j F Y", $time),
         ];
     }
