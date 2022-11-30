@@ -50,7 +50,7 @@ class SendSMSService
 
         foreach ($params AS $index => $param)
         {
-            $requestBody['param' . ($index+1)] = $param;
+            $requestBody['param' . ($index+1)] = preg_replace("/[\s\-_]/", '.', $param);
         }
 
         return (new SendHTTPRequestService())->set_url("https://api.ghasedak.me/v2/verification/send/simple")
