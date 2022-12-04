@@ -2,7 +2,7 @@
 
 namespace Genocide\Radiocrud\Services\ActionService\Traits;
 
-trait HandleModel
+trait ModelHandler
 {
     protected mixed $model;
 

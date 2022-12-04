@@ -2,7 +2,7 @@
 
 namespace Genocide\Radiocrud\Services\ActionService\Traits;
 
-trait HandleQueryToEloquentClosure
+trait QueryToEloquentClosureHandler
 {
     protected array $queryToEloquentClosures = [];
 

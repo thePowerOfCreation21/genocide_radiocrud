@@ -1,10 +1,10 @@
 <?php
 
-namespace Genocide\Radiocrud\Services\ActionService\Traits;
+namespace Genocide\Radiocrud\Services\ActionService\Traits\RequestHandler\Traits;
 
 use Illuminate\Http\Request;
 
-trait HandleRequest
+trait RequestHandler
 {
     protected Request $request;
 

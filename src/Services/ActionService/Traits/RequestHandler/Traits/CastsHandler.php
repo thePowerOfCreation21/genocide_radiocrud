@@ -1,30 +1,15 @@
 <?php
 
-namespace Genocide\Radiocrud\Services\ActionService\Traits;
+namespace Genocide\Radiocrud\Services\ActionService\Traits\RequestHandler\Traits;
 
 use Genocide\Radiocrud\Exceptions\CustomException;
 use Genocide\Radiocrud\Helpers;
-use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
 use Morilog\Jalali\CalendarUtils;
 
-trait HandleRequestData
+trait CastsHandler
 {
-    protected array $validationRules = [];
-
-    protected array|string $validationRule = [];
-
     protected array $casts = [];
-
-    /**
-     * @param array $validationRules
-     * @return $this
-     */
-    public function setValidationRules (array $validationRules): static
-    {
-        $this->validationRules = $validationRules;
-        return $this;
-    }
 
     /**
      * @param array $casts
@@ -42,81 +27,6 @@ trait HandleRequestData
     public function getCasts (): array
     {
         return $this->casts;
-    }
-
-    /**
-     * @param Request $request
-     * @param array|string $validationRule
-     * @param array $options
-     * @return array
-     * @throws CustomException
-     */
-    protected function getDataFromRequest(Request $request, array|string $validationRule, array $options = []): array
-    {
-        $validationRule = $this->getValidationRule(
-            $validationRule,
-            $options['throwException'] ?? true
-        );
-
-        if (!isset($validationRule['laravel']))
-        {
-            $validationRule = [
-                'laravel' => $validationRule
-            ];
-        }
-
-        $data = $request->validate(
-            $validationRule['laravel'] ?? []
-        );
-
-        return $this->castData($data, $validationRule['casts'] ?? []);
-    }
-
-    /**
-     * @param array|string $validationRule
-     * @return $this
-     * @throws CustomException
-     */
-    public function setValidationRule (array|string $validationRule): static
-    {
-        $this->validationRule = $this->getValidationRule($validationRule);
-        return $this;
-    }
-
-    /**
-     * @param array|string|null $validationRule
-     * @param bool $throwException
-     * @return mixed
-     * @throws CustomException
-     */
-    protected function getValidationRule(array|string $validationRule = null, bool $throwException = true): mixed
-    {
-        if (is_null($validationRule))
-        {
-            return $this->validationRule;
-        }
-        if (is_string($validationRule))
-        {
-            if (isset($this->validationRules[$validationRule]))
-            {
-                return $this->validationRules[$validationRule];
-            }
-            if ($throwException)
-            {
-                throw new CustomException(
-                    "validation role '$validationRule' is not set for " . get_class($this),
-                    65, 500
-                );
-            }
-            return [
-                'laravel' => [],
-                'casts' => []
-            ];
-        }
-        else
-        {
-            return $validationRule;
-        }
     }
 
     /**
@@ -250,6 +160,7 @@ trait HandleRequestData
     /**
      * @param UploadedFile $file
      * @param string $path
+     * @param string|null $fieldName
      * @return string
      */
     protected function uploadFile(UploadedFile $file, string $path = '/uploads', string $fieldName = null): string

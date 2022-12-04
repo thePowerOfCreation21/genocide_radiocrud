@@ -3,34 +3,28 @@
 namespace Genocide\Radiocrud\Services\ActionService;
 
 use Genocide\Radiocrud\Exceptions\CustomException;
-use Genocide\Radiocrud\Services\ActionService\Traits\HandleEloquent;
-use Genocide\Radiocrud\Services\ActionService\Traits\HandleModel;
-use Genocide\Radiocrud\Services\ActionService\Traits\HandleOrderBy;
-use Genocide\Radiocrud\Services\ActionService\Traits\HandleQuery;
-use Genocide\Radiocrud\Services\ActionService\Traits\HandleQueryToEloquentClosure;
-use Genocide\Radiocrud\Services\ActionService\Traits\HandleRelations;
-use Genocide\Radiocrud\Services\ActionService\Traits\HandleRequest;
-use Genocide\Radiocrud\Services\ActionService\Traits\HandleRequestData;
-use Genocide\Radiocrud\Services\ActionService\Traits\HandleResource;
+use Genocide\Radiocrud\Services\ActionService\Traits\EloquentHandler;
+use Genocide\Radiocrud\Services\ActionService\Traits\ModelHandler;
+use Genocide\Radiocrud\Services\ActionService\Traits\OrderByHandler;
+use Genocide\Radiocrud\Services\ActionService\Traits\QueryHandler;
+use Genocide\Radiocrud\Services\ActionService\Traits\QueryToEloquentClosureHandler;
+use Genocide\Radiocrud\Services\ActionService\Traits\RelationsHandler;
+use Genocide\Radiocrud\Services\ActionService\Traits\ResourceHandler;
+use Genocide\Radiocrud\Services\ActionService\Traits\RequestHandler\RequestHandler;
 use Genocide\Radiocrud\Services\PaginationService;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 abstract class ActionService
 {
-    use HandleResource,
-        HandleRequest,
-        HandleModel,
-        HandleQueryToEloquentClosure,
-        HandleEloquent,
-        HandleQuery,
-        HandleOrderBy,
-        HandleRelations,
-        HandleRequestData
-        {
-            getDataFromRequest as public getDataFromRequestTrait;
-        }
+    use ResourceHandler,
+        ModelHandler,
+        QueryToEloquentClosureHandler,
+        EloquentHandler,
+        QueryHandler,
+        OrderByHandler,
+        RelationsHandler,
+        RequestHandler;
 
     protected bool $applyResource = true;
 
@@ -58,28 +52,6 @@ abstract class ActionService
     public function getEloquent (): mixed
     {
         return is_null($this->eloquent) ? new $this->model() : $this->eloquent;
-    }
-
-    /**
-     * @param Request|null $request
-     * @param array|string|null $validationRule
-     * @param array $options
-     * @return array
-     * @throws CustomException
-     */
-    public function getDataFromRequest(Request $request = null, array|string $validationRule = null, array $options = []): array
-    {
-        if (is_null($request))
-        {
-            $request = $this->getRequest();
-        }
-
-        if (is_null($validationRule))
-        {
-            $validationRule = $this->getValidationRule();
-        }
-
-        return $this->getDataFromRequestTrait($request, $validationRule, $options);
     }
 
     /**
@@ -222,9 +194,7 @@ abstract class ActionService
      */
     public function storeByRequest (callable $storing = null): mixed
     {
-        $data = $this->getDataFromRequest($this->getRequest(), $this->getValidationRule());
-
-        return $this->store($data, $storing);
+        return $this->store($this->getDataFromRequest(), $storing);
     }
 
     /**
@@ -234,7 +204,7 @@ abstract class ActionService
     public function mergeQueryWithQueryFromRequest (): static
     {
         $this->mergeQueryWith(
-            $this->getDataFromRequest($this->getRequest(), $this->getValidationRule(), ['throw_exception' => false])
+            $this->getDataFromRequest()
         );
         return $this;
     }
@@ -376,7 +346,7 @@ abstract class ActionService
     public function updateByRequest(callable $updating = null): bool|int
     {
         return $this->update(
-            $this->getDataFromRequest($this->request, $this->getValidationRule()),
+            $this->getDataFromRequest(),
             $updating
         );
     }

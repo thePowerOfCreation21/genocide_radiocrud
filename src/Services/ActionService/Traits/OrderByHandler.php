@@ -2,7 +2,7 @@
 
 namespace Genocide\Radiocrud\Services\ActionService\Traits;
 
-trait HandleOrderBy
+trait OrderByHandler
 {
     protected array $orderBy = ['id' => 'DESC'];
 

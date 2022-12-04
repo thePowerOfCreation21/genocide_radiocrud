@@ -2,7 +2,7 @@
 
 namespace Genocide\Radiocrud\Services\ActionService\Traits;
 
-trait HandleRelations
+trait RelationsHandler
 {
     protected array $relations = [];
 

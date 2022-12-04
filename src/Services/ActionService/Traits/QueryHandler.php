@@ -2,7 +2,7 @@
 
 namespace Genocide\Radiocrud\Services\ActionService\Traits;
 
-trait HandleQuery
+trait QueryHandler
 {
     protected array $query = [];
 

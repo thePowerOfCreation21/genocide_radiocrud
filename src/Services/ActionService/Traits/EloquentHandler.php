@@ -4,7 +4,7 @@ namespace Genocide\Radiocrud\Services\ActionService\Traits;
 
 use Closure;
 
-trait HandleEloquent
+trait EloquentHandler
 {
     protected mixed $eloquent = null;
 

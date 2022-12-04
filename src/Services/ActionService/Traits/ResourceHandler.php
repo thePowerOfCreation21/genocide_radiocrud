@@ -4,7 +4,7 @@ namespace Genocide\Radiocrud\Services\ActionService\Traits;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-trait HandleResource
+trait ResourceHandler
 {
     protected array $resources = [];
 
