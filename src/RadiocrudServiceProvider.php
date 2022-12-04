@@ -14,7 +14,7 @@ class RadiocrudServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->publishes([
-            __DIR__.'/../database/migrations/2022_08_11_170703_create_key_value_configs_table.php' => database_path('migrations')
+            __DIR__.'/../database/migrations' => database_path('migrations')
         ], 'radiocrud_migrations');
     }
 
