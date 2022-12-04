@@ -13,8 +13,8 @@
         }
     ],
     "require": {
-        "morilog/jalali": "3.2.0",
+        "php": "^8.0.2",
         "ext-curl": "*",
-        "laravel/framework": "9.19.*"
+        "laravel/framework": "9.42.*"
     }
 }
