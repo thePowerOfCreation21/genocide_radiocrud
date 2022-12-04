@@ -1,6 +1,6 @@
 {
     "name": "genocide/radiocrud",
-    "description": "don't ask what is purpose of this package, i don't even know what is purpose of me being alive",
+    "description": "fester, simpler way to create CRUD system in laravel",
     "autoload": {
         "psr-4": {
             "Genocide\\Radiocrud\\": "src/"
