@@ -15,6 +15,6 @@
     "require": {
         "morilog/jalali": "3.2.0",
         "ext-curl": "*",
-        "laravel/framework": "^9"
+        "laravel/framework": "9.19.*"
     }
 }
