@@ -1,0 +1,14 @@
+<?php
+
+namespace App\Actions;
+
+use Genocide\Radiocrud\Services\ActionService\ActionService;{{uses_here}}
+
+class DummyAction extends ActionService
+{
+    public function __construct()
+    {
+        {{init_codes_here}}
+        parent::__construct();
+    }
+}
