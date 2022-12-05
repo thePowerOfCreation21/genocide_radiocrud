@@ -4,12 +4,12 @@ namespace Genocide\Radiocrud\Services;
 
 use Genocide\Radiocrud\Exceptions\CustomException;
 use Genocide\Radiocrud\Models\KeyValueConfig;
-use Genocide\Radiocrud\Services\ActionService\Traits\HandleRequestData;
+use Genocide\Radiocrud\Services\ActionService\Traits\RequestHandler\RequestHandler;
 use Illuminate\Http\Request;
 
 class KeyValueConfigService
 {
-    use HandleRequestData;
+    use RequestHandler;
 
     protected string $key = 'default_key';
 
@@ -120,7 +120,7 @@ class KeyValueConfigService
     public function update_by_request (Request $request)
     {
         $this->update(
-            $this->getDataFromRequest($request, $this->validation_rule)
+            $this->getDataFromRequest()
         );
     }
 
