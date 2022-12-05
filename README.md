@@ -10,7 +10,7 @@ Then run `php artisan migrate` to migrate newly added migration.
 ### you're not done!
 this is last step of installation, i promise !
 now you should add some file system disks, so Radiocrud can work with files.
-add code below to `config\filesystems.php` (add it do "disks" array)
+add code below to `config\filesystems.php` (add it to "disks" array)
 ```
 'public_uploads' => [
     'driver' => 'local',
