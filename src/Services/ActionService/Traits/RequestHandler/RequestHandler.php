@@ -4,16 +4,36 @@ namespace Genocide\Radiocrud\Services\ActionService\Traits\RequestHandler;
 
 use Genocide\Radiocrud\Exceptions\CustomException;
 use Genocide\Radiocrud\Services\ActionService\Traits\RequestHandler\Traits\CastsHandler;
-use Genocide\Radiocrud\Services\ActionService\Traits\RequestHandler\Traits\RequestHandler AS RequestHandlerTrait;
 use Genocide\Radiocrud\Services\ActionService\Traits\RequestHandler\Traits\ValidationRuleHandler;
+use Illuminate\Http\Request;
 
 trait RequestHandler
 {
-    use ValidationRuleHandler, CastsHandler, RequestHandlerTrait;
+    use ValidationRuleHandler, CastsHandler;
 
     protected array $requestData = [];
 
     protected array $originalRequestData = [];
+
+    protected Request $request;
+
+    /**
+     * @param Request $request
+     * @return $this
+     */
+    public function setRequest (Request $request): static
+    {
+        $this->request = $request;
+        return $this;
+    }
+
+    /**
+     * @return Request
+     */
+    public function getRequest (): Request
+    {
+        return $this->request;
+    }
 
     /**
      * @return $this
