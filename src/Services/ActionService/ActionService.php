@@ -147,12 +147,14 @@ abstract class ActionService
     }
 
     /**
-     * @param string|null $userClass
+     * @param string|array|null $userClass
      * @return mixed
      * @throws CustomException
      */
-    public function getUserFromRequest(string $userClass = null): mixed
+    public function getUserFromRequest(string|array $userClass = null): mixed
     {
+        $userClass = is_string($userClass) ? [$userClass] : $userClass;
+
         $user = $this->request->user();
 
         if (empty($user))
@@ -160,14 +162,9 @@ abstract class ActionService
             throw new CustomException("could not get user from request", 100, 500);
         }
 
-        if (is_null($userClass))
+        if (! empty($userClass) && ! in_array(get_class($user), $userClass))
         {
-            return $user;
-        }
-
-        if (!is_a($user, $userClass))
-        {
-            throw new CustomException("user should be instance of " . $userClass, 101, 500);
+            throw new CustomException("user should be instance of " . implode(' | ', $userClass), 101, 500);
         }
 
         return $user;
