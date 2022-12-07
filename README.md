@@ -24,4 +24,4 @@ add code below to `config\filesystems.php` (add it to "disks" array)
     'throw' => false,
 ],
 ```
-Radiocrud will use this file system disks to do things like creating new Action class with command.
+Radiocrud will use this file system disks to do things such as creating new Action class with command.
