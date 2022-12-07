@@ -15,7 +15,7 @@
     "require": {
         "php": "^8.0.2",
         "ext-curl": "*",
-        "laravel/framework": "^9.42",
+        "laravel/framework": "^9.19",
         "morilog/jalali": "^3.4"
     },
     "extra": {
