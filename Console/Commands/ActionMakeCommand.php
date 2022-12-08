@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Storage;
 use InvalidArgumentException;
 use Symfony\Component\Console\Input\InputArgument;
@@ -118,18 +119,52 @@ class ActionMakeCommand extends Command
         if ($this->hasOption('m') && $this->option('m') != 'null')
         {
             $initCommands['uses'] .= "\nuse App\\Models\\" . $this->option('m') . ';';
+            $this->makeModel();
             $initCommands['initCodes'] = $this->addCodeToInitCodes($initCommands['initCodes'], '->setModel(' . $this->option('m') . '::class)');
         }
 
         if ($this->hasOption('r') && $this->option('r') != 'null')
         {
             $initCommands['uses'] .= "\nuse App\\Http\\Resources\\" . $this->option('r') . ';';
+            $this->makeResource();
             $initCommands['initCodes'] = $this->addCodeToInitCodes($initCommands['initCodes'], '->setResource(' . $this->option('r') . '::class)');
         }
 
         $initCommands['initCodes'] = ! empty($initCommands['initCodes']) ? $initCommands['initCodes'] . ';' : null;
 
         return $initCommands;
+    }
+
+    /**
+     * @return void
+     */
+    public function makeModel ()
+    {
+        Artisan::call('make:model', ['name' => $this->option('m')]);
+        $this->outputTheArtisanOutput(['INFO', 'ALERT']);
+    }
+
+    /**
+     * @return void
+     */
+    public function makeResource ()
+    {
+        Artisan::call('make:resource', ['name' => $this->option('r')]);
+        $this->outputTheArtisanOutput(['INFO', 'ALERT']);
+    }
+
+    /**
+     * @param array $allowedCommands
+     * @return void
+     */
+    public function outputTheArtisanOutput (array $allowedCommands = ['INFO', 'ERROR', 'ALERT'])
+    {
+        $output = explode(' ', trim(Artisan::output()), 2);
+        if (in_array($output[0], $allowedCommands))
+        {
+            $command = $output[0];
+            $this->$command($output[1]);
+        }
     }
 
     /**
