@@ -76,10 +76,7 @@ abstract class ActionService
         {
             $this->startEloquentIfIsNull();
 
-            foreach ($this->relations as $relation)
-            {
-                $this->eloquent = $this->eloquent->with($relation);
-            }
+            $this->eloquent = $this->eloquent->with($this->relations);
         }
 
         return $this;
