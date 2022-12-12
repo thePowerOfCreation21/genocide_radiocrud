@@ -70,6 +70,14 @@ class CustomException extends Exception
     }
 
     /**
+     * @return mixed
+     */
+    public function getMoreDetails (): mixed
+    {
+        return $this->moreDetails;
+    }
+
+    /**
      * @return JsonResponse
      */
     public function render (): JsonResponse
