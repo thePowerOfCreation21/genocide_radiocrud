@@ -51,7 +51,7 @@ abstract class ActionService
      */
     public function getEloquent (): mixed
     {
-        return is_null($this->eloquent) ? new $this->model() : $this->eloquent;
+        return is_null($this->eloquent) ? $this->model::query() : $this->eloquent;
     }
 
     /**
