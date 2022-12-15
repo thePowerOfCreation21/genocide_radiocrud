@@ -329,7 +329,7 @@ abstract class ActionService
             $updating($this->eloquent, $updateData);
         }
 
-        return empty($updateData) ? false : $this->eloquent->update($updateData);
+        return empty($updateData) ? false : $this->eloquent->update($this->applyFillableToData($updateData));
     }
 
     /**
