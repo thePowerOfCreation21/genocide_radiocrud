@@ -72,9 +72,15 @@ trait ValidationRuleHandler
      */
     protected function getValidationRule(string $validationRuleName = null, bool $throwException = true): array
     {
-        return is_null($validationRuleName) ? $this->validationRule : $this->getValidationRuleByName($validationRuleName, $throwException);
+        return $this->castValidationRuleFromLaravel(
+            is_null($validationRuleName) ? $this->validationRule : $this->getValidationRuleByName($validationRuleName, $throwException)
+        );
     }
 
+    /**
+     * @param array|string $validationRule
+     * @return array|string
+     */
     public function castValidationRuleFromLaravel (array|string $validationRule): array|string
     {
         return isset($validationRule['laravel']) ? $validationRule : ['laravel' => $validationRule];
