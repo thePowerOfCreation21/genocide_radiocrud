@@ -113,11 +113,10 @@ class KeyValueConfigService
     }
 
     /**
-     * @param Request $request
      * @return void
      * @throws CustomException
      */
-    public function update_by_request (Request $request)
+    public function update_by_request ()
     {
         $this->update(
             $this->getDataFromRequest()
