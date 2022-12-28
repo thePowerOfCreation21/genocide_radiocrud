@@ -2,6 +2,7 @@
 
 namespace Genocide\Radiocrud;
 
+use DateTime;
 use Exception;
 use JetBrains\PhpStorm\Pure;
 use Morilog\Jalali\CalendarUtils;
@@ -228,6 +229,86 @@ class Helpers
         return empty($value) ? null : Helpers::timeToCustomDate(
             strtotime($value)
         );
+    }
+
+    /**
+     * @param string $datetime
+     * @param string|null $originDateTime
+     * @param array $units
+     * @param bool $useS
+     * @param bool $full
+     * @param string $implodeSeparator
+     * @param string $justNowString
+     * @return string
+     * @throws Exception
+     */
+    public static function timeElapsedString(
+        string $datetime,
+        string $originDateTime = null,
+        array $units = [
+            'year' => 'y',
+            'month' => 'm',
+            'week' => 'w',
+            'day' => 'd',
+            'hour' => 'h',
+            'minute' => 'i',
+            'second' => 's',
+        ],
+        bool $useS = true,
+        bool $full = false,
+        string $implodeSeparator = ', ',
+        string $justNowString = 'just now'
+    ): string
+    {
+        $now = empty($originDateTime) ? new DateTime : new DateTime($originDateTime);
+        $ago = new DateTime($datetime);
+        $diff = $now->diff($ago);
+
+        $diff->w = floor($diff->d / 7);
+        $diff->d -= $diff->w * 7;
+
+        foreach ($units as $unit => $diffKey) {
+            if ($diff->$diffKey) {
+                $units[$unit] = $diff->$diffKey . ' ' . $unit . ($useS && $diff->$diffKey > 1 ? 's' : '');
+            } else {
+                unset($units[$unit]);
+            }
+        }
+
+        if (!$full) $units = array_slice($units, 0, 1);
+        return $units ? implode($implodeSeparator, $units) : $justNowString;
+    }
+
+    /**
+     * @param string $datetime
+     * @param string|null $originDateTime
+     * @param array $units
+     * @param bool $useS
+     * @param bool $full
+     * @param string $implodeSeparator
+     * @param string $justNowString
+     * @return string
+     * @throws Exception
+     */
+    public static function persianTimeElapsedString(
+        string $datetime,
+        string $originDateTime = null,
+        array $units = [
+            'سال' => 'y',
+            'ماه' => 'm',
+            'هفته' => 'w',
+            'روز' => 'd',
+            'ساعت' => 'h',
+            'دقیقه' => 'i',
+            'ثانیه' => 's',
+        ],
+        bool $useS = false,
+        bool $full = false,
+        string $implodeSeparator = ' و ',
+        string $justNowString = 'همین حالا'
+    ): string
+    {
+        return self::timeElapsedString($datetime, $originDateTime, $units, $useS, $full, $implodeSeparator, $justNowString);
     }
 
     /**
