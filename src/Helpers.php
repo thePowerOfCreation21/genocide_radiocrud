@@ -3,6 +3,7 @@
 namespace Genocide\Radiocrud;
 
 use Exception;
+use JetBrains\PhpStorm\Pure;
 use Morilog\Jalali\CalendarUtils;
 
 class Helpers
@@ -178,7 +179,7 @@ class Helpers
      * @param string $str
      * @return bool|int
      */
-    public static function strToDailyTime (string $str): bool|int
+    public static function strToFullDailyTime (string $str): bool|int
     {
         $time = strtotime(date('Y/m/j', strtotime($str)));
         if (date('H', $time) == '01')
@@ -186,6 +187,15 @@ class Helpers
             $time -= 3600;
         }
         return $time;
+    }
+
+    /**
+     * @param string $str
+     * @return bool|int
+     */
+    #[Pure] public static function strToDailyTime (string $str): bool|int
+    {
+        return strtotime($str) - self::strToFullDailyTime($str);
     }
 
     /**
