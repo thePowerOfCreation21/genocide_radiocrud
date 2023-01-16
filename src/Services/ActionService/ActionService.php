@@ -172,7 +172,7 @@ abstract class ActionService
      * @param callable|null $storing
      * @return mixed
      */
-    protected function store(array $data, callable $storing = null): mixed
+    public function store(array $data, callable $storing = null): mixed
     {
         if (is_callable($storing))
         {
