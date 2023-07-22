@@ -243,8 +243,8 @@ class PaginationService
         $skipRange = $this->getSkipRange();
 
         $data = $this->getRequest()->validate([
-            'skip' => ['integer', 'min:' . $limitRange['min'], 'max:' . $limitRange['max']],
-            'limit' => ['integer', 'min:' . $skipRange['min'], 'max:' . $skipRange['max']],
+            'limit' => ['integer', 'min:' . $limitRange['min'], 'max:' . $limitRange['max']],
+            'skip' => ['integer', 'min:' . $skipRange['min'], 'max:' . $skipRange['max']],
         ]);
 
         return $this
